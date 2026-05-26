@@ -44,27 +44,31 @@ export default function Register() {
 
       if (authError) throw authError;
 
-      // 2. Insert profile if user created (handled by DB trigger or manually)
+      // 2. Create profile via server-side API (bypasses RLS)
       if (authData.user) {
-        const { error: profileError } = await supabase
-          .from('users')
-          .insert([
-            {
-              id: authData.user.id,
-              full_name: fullName,
-              email: email,
-              whatsapp_number: whatsapp,
-              driving_license: license,
-              pincode: pincode,
-              vehicle_type: vehicleType,
-              avg_km_per_day: avgKm,
-            }
-          ]);
-          
-        if (profileError) {
-          console.error("Profile creation error, but auth succeeded:", profileError.message, "| Code:", profileError.code, "| Details:", profileError.details, "| Hint:", profileError.hint);
-          // Don't throw here, sometimes RLS blocks it if not setup perfectly, 
-          // let the user proceed and fix profile later.
+        const profileRes = await fetch('/api/register-profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: authData.user.id,
+            fullName,
+            email,
+            whatsapp,
+            license,
+            pincode,
+            vehicleType,
+            avgKm,
+          }),
+        });
+
+        if (!profileRes.ok) {
+          try {
+            const { error: profileError } = await profileRes.json();
+            console.error('Profile creation error, but auth succeeded:', profileError);
+          } catch (e) {
+            const errorText = await profileRes.text();
+            console.error('Profile creation API failed with non-JSON response:', errorText);
+          }
         }
       }
 

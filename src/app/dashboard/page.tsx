@@ -39,7 +39,7 @@ export default async function DashboardHome() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-sm shadow-sm border border-gray-100 flex flex-col">
+        <div className="bg-white p-6 rounded-sm shadow-sm border border-gray-100 flex flex-col hover:shadow-md hover:-translate-y-1 transition-all duration-300">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-gray-500 uppercase tracking-wide text-xs">Total Earnings</h3>
             <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600">
@@ -51,7 +51,7 @@ export default async function DashboardHome() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-sm shadow-sm border border-gray-100 flex flex-col">
+        <div className="bg-white p-6 rounded-sm shadow-sm border border-gray-100 flex flex-col hover:shadow-md hover:-translate-y-1 transition-all duration-300">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-gray-500 uppercase tracking-wide text-xs">Pending Clearance</h3>
             <div className="w-10 h-10 rounded-full bg-yellow-50 flex items-center justify-center text-yellow-600">
@@ -63,7 +63,7 @@ export default async function DashboardHome() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-sm shadow-sm border border-gray-100 flex flex-col">
+        <div className="bg-white p-6 rounded-sm shadow-sm border border-gray-100 flex flex-col hover:shadow-md hover:-translate-y-1 transition-all duration-300">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-gray-500 uppercase tracking-wide text-xs">Cleared Income</h3>
             <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
@@ -75,7 +75,7 @@ export default async function DashboardHome() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-sm shadow-sm border border-gray-100 flex flex-col">
+        <div className="bg-white p-6 rounded-sm shadow-sm border border-gray-100 flex flex-col hover:shadow-md hover:-translate-y-1 transition-all duration-300">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-bold text-gray-500 uppercase tracking-wide text-xs">Total Days Driven</h3>
             <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-[var(--color-primary-red)]">
@@ -90,7 +90,7 @@ export default async function DashboardHome() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Recent Activity */}
-        <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-6">
+        <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow duration-300">
           <h2 className="text-xl font-bold uppercase tracking-wide mb-6 flex items-center gap-2">
             <MapPin size={20} className="text-[var(--color-primary-red)]" />
             Recent Submissions
@@ -122,7 +122,7 @@ export default async function DashboardHome() {
         </div>
 
         {/* Campaign Info (Static for now, could be fetched from DB) */}
-        <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-6">
+        <div className="bg-white rounded-sm shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow duration-300">
           <h2 className="text-xl font-bold uppercase tracking-wide mb-6">Current Campaign</h2>
           <div className="bg-[var(--color-primary-black)] text-white rounded-sm p-6 relative overflow-hidden">
             <div className="absolute -right-10 -top-10 w-40 h-40 bg-[var(--color-primary-red)] rounded-full opacity-20 blur-xl"></div>

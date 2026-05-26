@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { 
@@ -36,8 +37,9 @@ export const Sidebar = () => {
   return (
     <div className="w-64 bg-white shadow-lg border-r border-gray-100 flex flex-col h-full sticky top-0">
       <div className="p-6 flex items-center justify-center border-b border-gray-100">
-        <Link href="/dashboard" className="text-2xl font-bold font-heading uppercase tracking-widest text-[var(--color-primary-black)]">
-          <span className="text-[var(--color-primary-red)]">GC</span> Driver
+        <Link href="/dashboard" className="flex items-center gap-3 text-2xl font-bold font-heading uppercase tracking-widest text-[var(--color-primary-black)]">
+          <Image src="/logo.png" alt="The Game Changer" width={40} height={48} className="w-auto h-10" />
+          <span><span className="text-[var(--color-primary-red)]">GC</span> Driver</span>
         </Link>
       </div>
 
