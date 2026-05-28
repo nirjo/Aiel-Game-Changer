@@ -36,7 +36,8 @@ export default function Withdrawals() {
     setRequesting(true);
     setMessage({ text: '', type: '' });
 
-    const formData = new FormData(e.currentTarget);
+    const formElement = e.currentTarget;
+    const formData = new FormData(formElement);
     const amount = parseFloat(formData.get('amount') as string);
 
     if (income && amount > income.cleared_income) {
@@ -60,7 +61,7 @@ export default function Withdrawals() {
       if (error) throw error;
       
       setMessage({ text: 'Withdrawal requested successfully!', type: 'success' });
-      (e.target as HTMLFormElement).reset();
+      formElement.reset();
       loadData(); // Reload to update table
     } catch (error: any) {
       setMessage({ text: error.message || 'Error requesting withdrawal', type: 'error' });

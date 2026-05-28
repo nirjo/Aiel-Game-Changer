@@ -35,7 +35,8 @@ export default function Support() {
     setSubmitting(true);
     setMessage({ text: '', type: '' });
 
-    const formData = new FormData(e.currentTarget);
+    const formElement = e.currentTarget;
+    const formData = new FormData(formElement);
     
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -53,7 +54,7 @@ export default function Support() {
       if (error) throw error;
       
       setMessage({ text: 'Support ticket submitted successfully!', type: 'success' });
-      (e.target as HTMLFormElement).reset();
+      formElement.reset();
       loadTickets(); // Reload table
     } catch (error: any) {
       setMessage({ text: error.message || 'Error submitting ticket', type: 'error' });

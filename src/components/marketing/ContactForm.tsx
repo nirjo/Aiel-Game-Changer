@@ -12,7 +12,8 @@ export const ContactForm = () => {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    const formData = new FormData(e.currentTarget);
+    const formElement = e.currentTarget;
+    const formData = new FormData(formElement);
     const data = {
       name: formData.get('name'),
       email: formData.get('email'),
@@ -29,7 +30,7 @@ export const ContactForm = () => {
 
       if (res.ok) {
         setSubmitStatus('success');
-        (e.target as HTMLFormElement).reset();
+        formElement.reset();
       } else {
         setSubmitStatus('error');
       }

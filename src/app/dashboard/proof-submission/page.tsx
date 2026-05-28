@@ -22,9 +22,9 @@ export default function ProofSubmission() {
     setSubmitting(true);
     setMessage({ text: '', type: '' });
 
-    // Instantiating FormData synchronously at the very beginning of the submit handler
-    // before any async/await suspends execution and clears the React synthetic event.
-    const formData = new FormData(e.currentTarget);
+    // Capture form element synchronously before async operations
+    const formElement = e.currentTarget;
+    const formData = new FormData(formElement);
     const kmStart = parseFloat(formData.get('km_start') as string);
     const kmEnd = parseFloat(formData.get('km_end') as string);
 
@@ -72,7 +72,7 @@ export default function ProofSubmission() {
       if (dbError) throw dbError;
       
       setMessage({ text: 'Proof submitted successfully! It will be reviewed shortly.', type: 'success' });
-      (e.target as HTMLFormElement).reset();
+      formElement.reset();
       setFile(null);
     } catch (error: any) {
       setMessage({ text: error.message || 'Error submitting proof', type: 'error' });
