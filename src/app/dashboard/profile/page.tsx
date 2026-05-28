@@ -54,7 +54,7 @@ export default function Profile() {
 
       const { error } = await supabase
         .from('users')
-        .upsert({ id: user.id, ...updates });
+        .upsert({ id: user.id, email: user.email, ...updates });
 
       if (error) throw error;
       
