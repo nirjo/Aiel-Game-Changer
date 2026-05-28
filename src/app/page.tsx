@@ -34,7 +34,7 @@ export default function Home() {
               <h2 className="text-[var(--color-primary-red)] font-bold tracking-widest uppercase mb-4 text-xl">
                 Advertising Agency
               </h2>
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold uppercase tracking-tight text-white mb-2 leading-none">
+              <h1 className="text-5xl md:text-8xl lg:text-9xl font-bold uppercase tracking-tight text-white mb-2 leading-none">
                 THE <br />
                 <span className="text-white relative inline-block">
                   GAME
