@@ -8,6 +8,7 @@ import { PortfolioCard } from "@/components/marketing/PortfolioCard";
 import { TestimonialCard } from "@/components/marketing/TestimonialCard";
 import { SERVICES, PROJECTS, TESTIMONIALS } from "@/lib/constants/content";
 import { ArrowRight, Trophy, Users, Target, Activity } from "lucide-react";
+import { CampaignCarousel } from "@/components/marketing/CampaignCarousel";
 
 export default function Home() {
   return (
@@ -55,6 +56,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Live Driver Campaigns Carousel */}
+        <CampaignCarousel />
 
         {/* Services Preview */}
         <section className="py-24 bg-white relative">
