@@ -22,8 +22,20 @@ export default function ProofSubmission() {
     setSubmitting(true);
     setMessage({ text: '', type: '' });
 
+    // Instantiating FormData synchronously at the very beginning of the submit handler
+    // before any async/await suspends execution and clears the React synthetic event.
+    const formData = new FormData(e.currentTarget);
+    const kmStart = parseFloat(formData.get('km_start') as string);
+    const kmEnd = parseFloat(formData.get('km_end') as string);
+
     if (!file) {
       setMessage({ text: 'Please select an image to upload.', type: 'error' });
+      setSubmitting(false);
+      return;
+    }
+
+    if (kmEnd <= kmStart) {
+      setMessage({ text: 'Ending KM must be greater than starting KM', type: 'error' });
       setSubmitting(false);
       return;
     }
@@ -31,14 +43,6 @@ export default function ProofSubmission() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
-
-      const formData = new FormData(e.currentTarget);
-      const kmStart = parseFloat(formData.get('km_start') as string);
-      const kmEnd = parseFloat(formData.get('km_end') as string);
-
-      if (kmEnd <= kmStart) {
-        throw new Error('Ending KM must be greater than starting KM');
-      }
 
       // Upload file to Supabase Storage
       const fileExt = file.name.split('.').pop();
