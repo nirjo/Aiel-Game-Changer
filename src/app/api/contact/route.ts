@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { sendContactConfirmation } from '@/lib/resend';
 
 export async function POST(request: Request) {
   try {
@@ -15,7 +16,7 @@ export async function POST(request: Request) {
 
     const supabase = await createClient();
 
-    const { error } = await supabase
+    const { error: dbError } = await supabase
       .from('contact_submissions')
       .insert([
         {
@@ -26,12 +27,19 @@ export async function POST(request: Request) {
         }
       ]);
 
-    if (error) {
-      console.error('Supabase error inserting contact submission:', error);
+    if (dbError) {
+      console.error('Supabase error inserting contact submission:', dbError);
       return NextResponse.json(
         { error: 'Failed to submit contact form' },
         { status: 500 }
       );
+    }
+
+    // Send auto-reply confirmation email (non-blocking)
+    try {
+      await sendContactConfirmation(email, name, message);
+    } catch (emailError) {
+      console.error('Failed to send contact confirmation email:', emailError);
     }
 
     return NextResponse.json({ success: true }, { status: 201 });

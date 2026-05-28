@@ -48,13 +48,15 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // --- Protected routes ---
-  if (!user && pathname.startsWith('/dashboard')) {
+  if (!user && (pathname.startsWith('/dashboard') || pathname === '/complete-profile')) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = '/login';
     return NextResponse.redirect(loginUrl);
   }
 
-  // --- Already authenticated ---
+  // --- Already authenticated (redirect away from auth pages) ---
+  // Note: /complete-profile is intentionally NOT included here — authenticated
+  // users with incomplete profiles need to stay on that page.
   if (user && (pathname === '/login' || pathname === '/register')) {
     const dashboardUrl = request.nextUrl.clone();
     dashboardUrl.pathname = '/dashboard';

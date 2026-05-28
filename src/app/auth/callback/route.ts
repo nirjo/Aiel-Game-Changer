@@ -6,8 +6,11 @@ import { cookies } from 'next/headers';
  * GET /auth/callback
  *
  * Supabase redirects here after Google OAuth completes.
- * We exchange the `code` query param for a session (stored in cookies)
- * and then redirect the driver to their dashboard.
+ * We exchange the `code` query param for a session (stored in cookies),
+ * check whether the user has a completed profile in the `users` table,
+ * and redirect them accordingly:
+ *   - Complete profile → /dashboard
+ *   - Missing profile  → /complete-profile
  *
  * Required Supabase Dashboard config:
  *   Authentication → URL Configuration → Redirect URLs
@@ -55,6 +58,24 @@ export async function GET(request: Request) {
     return NextResponse.redirect(
       `${origin}/login?error=${encodeURIComponent(error.message)}`
     );
+  }
+
+  // ── Check whether the user has a completed profile ──────────
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    const { data: profile } = await supabase
+      .from('users')
+      .select('id, whatsapp_number, vehicle_type')
+      .eq('id', user.id)
+      .single();
+
+    // If no profile row exists OR key fields are missing, send to complete-profile
+    if (!profile || !profile.whatsapp_number || !profile.vehicle_type) {
+      return NextResponse.redirect(`${origin}/complete-profile`);
+    }
   }
 
   // Session is now stored in cookies — redirect to dashboard (or custom `next`)

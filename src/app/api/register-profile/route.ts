@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { sendWelcomeEmail } from '@/lib/resend';
 
 export async function POST(request: NextRequest) {
   try {
@@ -41,6 +42,12 @@ export async function POST(request: NextRequest) {
         { error: error.message },
         { status: 500 }
       );
+    }
+
+    try {
+      await sendWelcomeEmail(email, fullName);
+    } catch (emailError) {
+      console.error('Failed to send welcome email with Resend:', emailError);
     }
 
     return NextResponse.json({ success: true });
